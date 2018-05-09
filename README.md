@@ -1,7 +1,7 @@
 # we are going to make galaga, 
 # what do we need?
 # must have:
-# - pleyer ship and control
+# - player ship and control
 # - enemy ships
 # - collision detection
 # - a shooting function for player and ai
