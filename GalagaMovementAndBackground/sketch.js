@@ -1,6 +1,9 @@
 let ship, shlep, shlop;
 let x, y;
 let isMovingUp, isMovingDown, isMovingRight, isMovingLeft;
+let theStars = [];
+let flightTime;
+let btTime;
 
 function preload() {
   ship = loadImage("assets/Ship.png");
@@ -16,14 +19,49 @@ function setup() {
   isMovingDown = false;
   isMovingLeft = false;
   isMovingRight = false;
+
+  btTime = 50;
+  flightTime = millis();
 }
 
 function draw() {
+  if (millis() > flightTime + btTime) {
+    let aStar = {
+      x: random(1, width - 1),
+      y: -1,
+      c: random(3,6),
+      dy: 10,
+    };
+    theStars.push(aStar);
+    flightTime = millis();
+  }
   background(0);
+  moveStars();
+  displayStars();
+
   if (keyIsPressed) {
     moveShip();
   }
   image(ship,x,y);
+}
+
+function moveStars() {
+  for (let i=0; i<theStars.length; i++) {
+    theStars[i].y += theStars[i].dy;
+
+    if (theStars[i].y >= height + 50) {
+      theStars.splice(i, 1);
+    }
+  }
+}
+
+function displayStars() {
+
+  for (let i=0; i<theStars.length; i++) {
+    fill(255);
+    noStroke();
+    ellipse(theStars[i].x, theStars[i].y, theStars[i].c, theStars[i].c);
+  }
 }
 
 function keyPressed() {
