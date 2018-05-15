@@ -15,7 +15,9 @@ function setup() {
 
 function draw() {
   background(0);
-  keyPressed();
+  if (keyIsPressed) { 
+    keyPressed();
+  }
   image(ship,x,y);
 }
 
@@ -25,5 +27,11 @@ function keyPressed() {
   }
   if (key === "a" || key === "A") {
     x -= 10;
+  }
+  if (key === "w" || key === "W") {
+    y -= 10;
+  }
+  if (key === "s" || key === "S") {
+    y += 10;
   }
 }
