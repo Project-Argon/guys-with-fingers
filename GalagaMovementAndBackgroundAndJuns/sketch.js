@@ -7,7 +7,8 @@ let flightTime, btTime;
 // let shootTime, btShoot;
 let juns = [];
 
-let testShoot;
+let shoot;
+let flight;
 
 function preload() {
   ship = loadImage("assets/Ship.png");
@@ -30,11 +31,12 @@ function setup() {
   // shootTime = millis();
   // btShoot = 1000;
 
-  testShoot = new Timer(0);
+  shoot = new Timer(0);
+  flight = new Timer(50);
 }
 
 function draw() {
-  if (millis() > flightTime + btTime) {
+  if (flight.isDone()) {
     let aStar = {
       x: random(1, width - 1),
       y: -1,
@@ -42,16 +44,16 @@ function draw() {
       dy: 10,
     };
     theStars.push(aStar);
-    flightTime = millis();
+    flight.reset(50);
   }
-  if (testShoot.isDone()) {
+  if (shoot.isDone()) {
     if (isShooting) {
       let pews = {
         x: x,
         y: y
       };
       juns.push(pews);
-      testShoot.reset(1000);
+      shoot.reset(1000);
     }
   }
   background(0);
