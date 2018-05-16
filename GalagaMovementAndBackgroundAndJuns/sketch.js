@@ -3,8 +3,8 @@ let x, y;
 let isMovingUp, isMovingDown, isMovingRight, isMovingLeft;
 let isShooting;
 let theStars = [];
-let flightTime;
-let btTime;
+let flightTime, btTime;
+let shootTime, btShoot;
 let juns = [];
 
 function preload() {
@@ -25,6 +25,8 @@ function setup() {
 
   btTime = 50;
   flightTime = millis();
+  shootTime = millis();
+  btShoot = 1000;
 }
 
 function draw() {
@@ -38,12 +40,15 @@ function draw() {
     theStars.push(aStar);
     flightTime = millis();
   }
-  if (isShooting) {
-    let pews = {
-      x: x,
-      y: y
-    };
-    juns.push(pews);
+  if (millis() > shootTime + btShoot) {
+    if (isShooting) {
+      let pews = {
+        x: x,
+        y: y
+      };
+      juns.push(pews);
+    }
+    shootTime = millis();
   }
   background(0);
   moveStars();
