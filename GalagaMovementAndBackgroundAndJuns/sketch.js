@@ -71,7 +71,7 @@ function pewpew() {
 
 function displayPew() {
   for (let i=0; i<juns.length; i++) {
-    image(pew, juns[i].x, juns[i].y, 32, 32);
+    image(pew, juns[i].x + 48, juns[i].y, 32, 32);
   }
 }
 
@@ -110,13 +110,6 @@ function keyPressed() {
   if (key === " ") {
     isShooting = true;
   }
-  // if (isShooting) {
-  //   let pews = {
-  //     x: x,
-  //     y: y
-  //   };
-  //   juns.push(pews);
-  // }
 }
 
 function moveShip() {
