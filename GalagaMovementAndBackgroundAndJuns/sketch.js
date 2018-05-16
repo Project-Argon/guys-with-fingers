@@ -4,8 +4,10 @@ let isMovingUp, isMovingDown, isMovingRight, isMovingLeft;
 let isShooting;
 let theStars = [];
 let flightTime, btTime;
-let shootTime, btShoot;
+// let shootTime, btShoot;
 let juns = [];
+
+let testShoot;
 
 function preload() {
   ship = loadImage("assets/Ship.png");
@@ -25,8 +27,10 @@ function setup() {
 
   btTime = 50;
   flightTime = millis();
-  shootTime = millis();
-  btShoot = 1000;
+  // shootTime = millis();
+  // btShoot = 1000;
+
+  testShoot = new Timer(0);
 }
 
 function draw() {
@@ -40,15 +44,15 @@ function draw() {
     theStars.push(aStar);
     flightTime = millis();
   }
-  if (millis() > shootTime + btShoot) {
+  if (testShoot.isDone()) {
     if (isShooting) {
       let pews = {
         x: x,
         y: y
       };
       juns.push(pews);
+      testShoot.reset(1000);
     }
-    shootTime = millis();
   }
   background(0);
   moveStars();
@@ -61,6 +65,31 @@ function draw() {
 
   pewpew();
   displayPew();
+}
+
+class Timer {
+  constructor(waitTime) {
+    this.waitTime = waitTime;
+    this.startTime = millis();
+    this.finishTime = this.startTime + this.waitTime;
+    this.timerIsDone = false;
+  }
+
+  reset(newWaitTime) {
+    this.waitTime = newWaitTime;
+    this.startTime = millis();
+    this.finishTime = this.startTime + this.waitTime;
+    this.timerIsDone = false;
+  }
+
+  isDone() {
+    if (millis() >= this.finishTime) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 }
 
 function pewpew() {
