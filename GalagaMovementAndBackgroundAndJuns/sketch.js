@@ -1,6 +1,7 @@
 let ship, shlep, shlop, pew;
 let x, y;
 let isMovingUp, isMovingDown, isMovingRight, isMovingLeft;
+let isShooting;
 let theStars = [];
 let flightTime;
 let btTime;
@@ -36,6 +37,13 @@ function draw() {
     };
     theStars.push(aStar);
     flightTime = millis();
+  }
+  if (isShooting) {
+    let pews = {
+      x: x,
+      y: y
+    };
+    juns.push(pews);
   }
   background(0);
   moveStars();
@@ -95,13 +103,15 @@ function keyPressed() {
     isMovingRight = true;
   }
   if (key === " ") {
-    let pews = {
-      x: x,
-      y: y
-    };
-    juns.push(pews);
-
+    isShooting = true;
   }
+  // if (isShooting) {
+  //   let pews = {
+  //     x: x,
+  //     y: y
+  //   };
+  //   juns.push(pews);
+  // }
 }
 
 function moveShip() {
@@ -131,5 +141,8 @@ function keyReleased() {
   }
   if (key === "d" || key === "D") {
     isMovingRight = false;
+  }
+  if (key === " ") {
+    isShooting = false;
   }
 }
