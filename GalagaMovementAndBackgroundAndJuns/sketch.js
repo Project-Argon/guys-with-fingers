@@ -58,7 +58,7 @@ function pewpew() {
 
 function displayPew() {
   for (let i=0; i<juns.length; i++) {
-    image(pew, x, juns[i].y, 32, 32);
+    image(pew, juns[i].x, juns[i].y, 32, 32);
   }
 }
 
@@ -94,10 +94,11 @@ function keyPressed() {
   else if (key === "d" || key === "D") {
     isMovingRight = true;
   }
-  if (key === "f" || key === "F") {
+  if (key === " ") {
     let pews = {
+      x: x,
       y: y
-    }
+    };
     juns.push(pews);
 
   }
