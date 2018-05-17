@@ -159,6 +159,9 @@ function moveShip() {
   if (y >= height - 106) {
     isMovingDown = false;
   }
+  if (y <= 3*height/4) {
+    isMovingUp = false;
+  }
   if (isMovingUp) {
     y -= 9;
   }
