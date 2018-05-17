@@ -160,7 +160,7 @@ function moveShip() {
     isMovingDown = false;
   }
   if (isMovingUp) {
-    y -= 10;
+    y -= 9;
   }
   if (isMovingDown) {
     y += 9;
