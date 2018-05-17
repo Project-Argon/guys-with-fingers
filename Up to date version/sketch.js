@@ -71,8 +71,8 @@ function draw() {
   displayPew();
 
   fill(255);
-  rect(0, 0, 300, height);
-  rect(width-300, 0, 300, height);
+  rect(0, - 50, 300, height + 50);
+  rect(width-300, - 50, 300, height + 50);
 }
 
 class Timer {
