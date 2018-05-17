@@ -40,7 +40,7 @@ function setup() {
 function draw() {
   if (flight.isDone()) {
     let aStar = {
-      x: random(1, width - 1),
+      x: random(300, width - 300),
       y: -1,
       c: random(3,6),
       dy: 10,
@@ -69,6 +69,10 @@ function draw() {
 
   pewpew();
   displayPew();
+
+  fill(255);
+  rect(0, 0, 300, height);
+  rect(width-300, 0, 300, height);
 }
 
 class Timer {
@@ -146,10 +150,10 @@ function keyPressed() {
 }
 
 function moveShip() {
-  if (x <= 0) {
+  if (x <= 300) {
     isMovingLeft = false;
   }
-  if (x >= width - 132) {
+  if (x >= width - 432) {
     isMovingRight = false;
   }
   if (y >= height - 106) {
