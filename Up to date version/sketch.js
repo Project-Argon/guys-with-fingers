@@ -8,6 +8,9 @@ let flightTime, btTime;
 let shootTime, btShoot;
 let juns = [];
 
+let shoot;
+let flight;
+
 function preload() {
   ship = loadImage("assets/Ship.png");
   shlep = loadImage("assets/Shlep.png");
@@ -25,14 +28,17 @@ function setup() {
   isMovingLeft = false;
   isMovingRight = false;
 
-  btTime = 50;
-  flightTime = millis();
-  shootTime = millis();
-  btShoot = 1000;
+  // btTime = 50;
+  // flightTime = millis();
+  // shootTime = millis();
+  // btShoot = 1000;
+
+  shoot = new Timer(0);
+  flight = new Timer(50);
 }
 
 function draw() {
-  if (millis() > flightTime + btTime) {
+  if (flight.isDone()) {
     let aStar = {
       x: random(1, width - 1),
       y: -1,
@@ -40,18 +46,17 @@ function draw() {
       dy: 10,
     };
     theStars.push(aStar);
-    flightTime = millis();
+    flight.reset(50);
   }
-  if (millis() > shootTime + btShoot) {
+  if (shoot.isDone()) {
     if (isShooting) {
-      junBeoo.play();
       let pews = {
         x: x,
         y: y
       };
       juns.push(pews);
+      shoot.reset(1000);
     }
-    shootTime = millis();
   }
   background(0);
   moveStars();
@@ -64,6 +69,31 @@ function draw() {
 
   pewpew();
   displayPew();
+}
+
+class Timer {
+  constructor(waitTime) {
+    this.waitTime = waitTime;
+    this.startTime = millis();
+    this.finishTime = this.startTime + this.waitTime;
+    this.timerIsDone = false;
+  }
+
+  reset(newWaitTime) {
+    this.waitTime = newWaitTime;
+    this.startTime = millis();
+    this.finishTime = this.startTime + this.waitTime;
+    this.timerIsDone = false;
+  }
+
+  isDone() {
+    if (millis() >= this.finishTime) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 }
 
 function pewpew() {

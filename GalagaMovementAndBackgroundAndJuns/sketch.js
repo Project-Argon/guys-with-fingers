@@ -26,11 +26,6 @@ function setup() {
   isMovingLeft = false;
   isMovingRight = false;
 
-  btTime = 50;
-  flightTime = millis();
-  // shootTime = millis();
-  // btShoot = 1000;
-
   shoot = new Timer(0);
   flight = new Timer(50);
 }
