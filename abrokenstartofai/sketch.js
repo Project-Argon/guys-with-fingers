@@ -13,6 +13,8 @@ let moveShlopDown, moveShlopUp;
 let shoot;
 let flight;
 
+let state;
+
 function preload() {
   ship = loadImage("assets/Ship.png");
   shlep = loadImage("assets/Shlep.png");
@@ -33,7 +35,7 @@ function setup() {
   moveShlopUp = false;
   shlopX = width/2+37;
   shlopY = 150;
-  shlopTimer = 5000;
+  shlopTimer = 2000;
   attackTimer = millis();
 
   // btTime = 50;
@@ -43,6 +45,8 @@ function setup() {
 
   shoot = new Timer(0);
   flight = new Timer(50);
+
+  state = 1;
 }
 
 function draw() {
@@ -109,20 +113,32 @@ function shlopAi() {
 
   image(shlop, shlopX, shlopY);
 
-  if (millis() > attackTimer + shlopTimer) {
-    moveShlopDown = true;
+  if (state === 1) {
+    moveShlopDown = false;
+    if (millis() > attackTimer + shlopTimer) {
+      moveShlopDown = true;
+      attackTimer = millis();
+      state = 2;
+    }
   }
+  else if (state === 2) {
+    moveShlopUp = false;
+    if (millis() > attackTimer + shlopTimer) {
+      moveShlopUp = true;
+      attackTimer = millis();
+      state = 1;
+    }
+  }
+
   if (moveShlopDown) {
     if (shlopY < height/1.3) {
       shlopY += 6;
     }
   }
-  moveShlopDown = false;
-  if (shlopY >= height/1.3) {
-    moveShlopUp = true;
-  }
   if (moveShlopUp) {
-    shlopY -= 6;
+    if (shlopY > 150) {
+      shlopY -= 6;
+    }
   }
 }
 
