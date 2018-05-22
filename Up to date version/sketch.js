@@ -8,8 +8,14 @@ let flightTime, btTime;
 let shootTime, btShoot;
 let juns = [];
 
+let shlopTimer, attackTimer;
+let moveShlopDown, moveShlopUp;
+let shlopX, shlopY;
+
 let shoot;
 let flight;
+
+let state;
 
 function preload() {
   ship = loadImage("assets/Ship.png");
@@ -28,6 +34,13 @@ function setup() {
   isMovingLeft = false;
   isMovingRight = false;
 
+  moveShlopDown = false;
+  moveShlopUp = false;
+  shlopX = width/2+37;
+  shlopY = 150;
+  shlopTimer = 2000;
+  attackTimer = millis();
+
   // btTime = 50;
   // flightTime = millis();
   // shootTime = millis();
@@ -35,6 +48,8 @@ function setup() {
 
   shoot = new Timer(0);
   flight = new Timer(50);
+
+  state = 1;
 }
 
 function draw() {
@@ -62,6 +77,7 @@ function draw() {
   background(0);
   moveStars();
   displayStars();
+  shlopAi();
 
   if (keyIsPressed) {
     moveShip();
@@ -97,6 +113,39 @@ class Timer {
     }
     else {
       return false;
+    }
+  }
+}
+
+function shlopAi() {
+
+  image(shlop, shlopX, shlopY);
+
+  if (state === 1) {
+    moveShlopDown = false;
+    if (millis() > attackTimer + shlopTimer) {
+      moveShlopDown = true;
+      attackTimer = millis();
+      state = 2;
+    }
+  }
+  else if (state === 2) {
+    moveShlopUp = false;
+    if (millis() > attackTimer + shlopTimer) {
+      moveShlopUp = true;
+      attackTimer = millis();
+      state = 1;
+    }
+  }
+
+  if (moveShlopDown) {
+    if (shlopY < height/1.3) {
+      shlopY += 6;
+    }
+  }
+  if (moveShlopUp) {
+    if (shlopY > 150) {
+      shlopY -= 6;
     }
   }
 }
