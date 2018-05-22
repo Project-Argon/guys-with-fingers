@@ -21,7 +21,7 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  x = width/2;
+  x = width/2 - 66;
   y = 600;
   isMovingUp = false;
   isMovingDown = false;
@@ -38,6 +38,7 @@ function setup() {
 }
 
 function draw() {
+
   if (flight.isDone()) {
     let aStar = {
       x: random(300, width - 300),
@@ -150,10 +151,10 @@ function keyPressed() {
 }
 
 function moveShip() {
-  if (x <= 300) {
+  if (x <= 310) {
     isMovingLeft = false;
   }
-  if (x >= width - 432) {
+  if (x >= width - 442) {
     isMovingRight = false;
   }
   if (y >= height - 106) {
