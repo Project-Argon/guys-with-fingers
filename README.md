@@ -1,14 +1,14 @@
 # we are going to make galaga, 
 # what do we need?
 # must have:
-# - player ship and control
+# - player ship and control (Done)
 # - enemy ships
 # - collision detection
 # - a shooting function for player and ai
 # - start/gameover screens
 # nice to have:
 # - power ups
-# - moving background
+# - moving background (Done)
 # - score/highscore
 # - boss battles
 # - variable difficulty
