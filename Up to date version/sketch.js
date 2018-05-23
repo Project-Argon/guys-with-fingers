@@ -8,7 +8,7 @@ let flightTime, btTime;
 let shootTime, btShoot;
 let juns = [];
 
-let shlopTimer, attackTimer;
+let shlopTimer, attackTimer, returnTimer;
 let moveShlopDown, moveShlopUp;
 let shlopX, shlopY;
 
@@ -38,7 +38,8 @@ function setup() {
   moveShlopUp = false;
   shlopX = width/2+37;
   shlopY = 150;
-  shlopTimer = 2000;
+  shlopTimer = 1200;
+  returnTimer = random(4000, 7000);
   attackTimer = millis();
 
   // btTime = 50;
@@ -123,7 +124,7 @@ function shlopAi() {
 
   if (state === 1) {
     moveShlopDown = false;
-    if (millis() > attackTimer + shlopTimer) {
+    if (millis() > attackTimer + returnTimer) {
       moveShlopDown = true;
       attackTimer = millis();
       state = 2;
@@ -133,19 +134,20 @@ function shlopAi() {
     moveShlopUp = false;
     if (millis() > attackTimer + shlopTimer) {
       moveShlopUp = true;
+      returnTimer = random(2000, 10000);
       attackTimer = millis();
       state = 1;
     }
   }
 
   if (moveShlopDown) {
-    if (shlopY < height/1.3) {
-      shlopY += 6;
+    if (shlopY < height/1.2) {
+      shlopY += 7;
     }
   }
   if (moveShlopUp) {
     if (shlopY > 150) {
-      shlopY -= 6;
+      shlopY -= 7;
     }
   }
 }
