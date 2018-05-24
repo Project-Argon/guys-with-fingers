@@ -1,4 +1,4 @@
-let ship, shlep, shlop, pew;
+let ship, shlep, shlop, shlop2, shlop3, shlop4, pew;
 let x, y, shlopX, shlopY;
 let isMovingUp, isMovingDown, isMovingRight, isMovingLeft;
 let junBeoo;
@@ -8,19 +8,22 @@ let flightTime, btTime;
 let shootTime, btShoot;
 let juns = [];
 
-let shlopTimer, attackTimer, returnTimer;
+let shlopTimer, attackTimer, returnTimer, imgTimer, imgMillis;
 let moveShlopDown, moveShlopUp;
 let moveShlopX;
 
 let shoot;
 let flight;
 
-let state;
+let state, imgState;
 
 function preload() {
-  ship = loadImage("assets/Ship.png");
   shlep = loadImage("assets/Shlep.png");
   shlop = loadImage("assets/Shlop.png");
+  shlop2 = loadImage("assets/Shlop2.png");
+  shlop3 = loadImage("assets/Shlop3.png");
+  shlop4 = loadImage("assets/Shlop4.png");
+  ship = loadImage("assets/Ship.png");
   pew = loadImage("assets/Pew².png");
   junBeoo = loadSound("assets/beoo.mp3");
 }
@@ -36,11 +39,13 @@ function setup() {
 
   moveShlopDown = false;
   moveShlopUp = false;
-  shlopX = width/2+37;
+  shlopX = width/2-48;
   shlopY = 150;
   shlopTimer = 2200;
   returnTimer = random(4000, 7000);
   attackTimer = millis();
+  imgTimer = 175;
+  imgMillis = millis();
 
   // btTime = 50;
   // flightTime = millis();
@@ -51,6 +56,7 @@ function setup() {
   flight = new Timer(50);
 
   state = 1;
+  imgState = 1;
 }
 
 function draw() {
@@ -120,8 +126,30 @@ class Timer {
 
 function shlopAi() {
 
-  image(shlop, shlopX, shlopY);
+  if (imgState === 5) {
+    imgState = 1;
+  }
 
+  if (millis() > imgMillis + imgTimer) {
+    imgMillis = millis();
+    imgState += 1;
+  }
+
+  if (imgState === 1) {
+    image(shlop, shlopX, shlopY, 74, 48);
+  }
+
+  if (imgState === 2) {
+    image(shlop2, shlopX, shlopY, 74, 48);
+  }
+
+  if (imgState === 3) {
+    image(shlop3, shlopX, shlopY, 74, 48);
+  }
+
+  if (imgState === 4 || imgState === 5) {
+    image(shlop4, shlopX, shlopY, 74, 48);
+  }
 
   if (state === 1) {
     moveShlopDown = false;
