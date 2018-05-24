@@ -38,7 +38,7 @@ function setup() {
   moveShlopUp = false;
   shlopX = width/2+37;
   shlopY = 150;
-  shlopTimer = 1200;
+  shlopTimer = 2200;
   returnTimer = random(4000, 7000);
   attackTimer = millis();
 
@@ -136,7 +136,7 @@ function shlopAi() {
     moveShlopUp = false;
     if (millis() > attackTimer + shlopTimer) {
       moveShlopUp = true;
-      returnTimer = random(2000, 6000);
+      returnTimer = random(3000, 6000);
       attackTimer = millis();
       state = 1;
     }
