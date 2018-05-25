@@ -4,7 +4,7 @@ let isMovingUp, isMovingDown, isMovingRight, isMovingLeft;
 let junBeoo;
 let isShooting;
 let theStars = [];
-let flightTime, btTime;
+// let flightTime, btTime;
 let shootTime, btShoot;
 let juns = [];
 
@@ -41,7 +41,7 @@ function setup() {
   moveShlopUp = false;
   shlopX = width/2-48;
   shlopY = 150;
-  shlopTimer = 2200;
+  shlopTimer = 2000;
   returnTimer = random(4000, 7000);
   attackTimer = millis();
   imgTimer = 175;
@@ -172,7 +172,7 @@ function shlopAi() {
 
   if (moveShlopDown) {
     //moveShlopX = int(random(0, 2));
-    if (shlopY < height/1.3) {
+    if (shlopY < height/1.2) {
       if (moveShlopX <= 1) {
         shlopX += 2;
         shlopY += 6;

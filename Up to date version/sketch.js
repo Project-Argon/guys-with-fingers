@@ -1,21 +1,21 @@
-let ship, shlep, shlop, pew;
-let x, y;
+let ship, shlep, shlop, shlop2, shlop3, shlop4, pew;
+let x, y, shlopX, shlopY;
 let isMovingUp, isMovingDown, isMovingRight, isMovingLeft;
 let junBeoo;
 let isShooting;
 let theStars = [];
-let flightTime, btTime;
+// let flightTime, btTime;
 let shootTime, btShoot;
 let juns = [];
 
-let shlopTimer, attackTimer, returnTimer;
+let shlopTimer, attackTimer, returnTimer, imgTimer, imgMillis;
 let moveShlopDown, moveShlopUp;
-let shlopX, shlopY;
+let moveShlopX;
 
 let shoot;
 let flight;
 
-let state;
+let state, imgState;
 
 function preload() {
   ship = loadImage("assets/Ship.png");
@@ -36,11 +36,14 @@ function setup() {
 
   moveShlopDown = false;
   moveShlopUp = false;
-  shlopX = width/2+37;
+  shlopX = width/2-48;
   shlopY = 150;
-  shlopTimer = 1200;
+  shlopTimer = 2000;
   returnTimer = random(4000, 7000);
   attackTimer = millis();
+  imgTimer = 175;
+  imgMillis = millis();
+
 
   // btTime = 50;
   // flightTime = millis();
@@ -120,7 +123,30 @@ class Timer {
 
 function shlopAi() {
 
-  image(shlop, shlopX, shlopY);
+  if (imgState === 5) {
+    imgState = 1;
+  }
+
+  if (millis() > imgMillis + imgTimer) {
+    imgMillis = millis();
+    imgState += 1;
+  }
+
+  if (imgState === 1) {
+    image(shlop, shlopX, shlopY, 74, 48);
+  }
+
+  if (imgState === 2) {
+    image(shlop2, shlopX, shlopY, 74, 48);
+  }
+
+  if (imgState === 3) {
+    image(shlop3, shlopX, shlopY, 74, 48);
+  }
+
+  if (imgState === 4 || imgState === 5) {
+    image(shlop4, shlopX, shlopY, 74, 48);
+  }
 
   if (state === 1) {
     moveShlopDown = false;
@@ -128,26 +154,48 @@ function shlopAi() {
       moveShlopDown = true;
       attackTimer = millis();
       state = 2;
+      moveShlopX = random(0, 3);
     }
   }
   else if (state === 2) {
     moveShlopUp = false;
     if (millis() > attackTimer + shlopTimer) {
       moveShlopUp = true;
-      returnTimer = random(2000, 10000);
+      returnTimer = random(3000, 6000);
       attackTimer = millis();
       state = 1;
     }
   }
 
   if (moveShlopDown) {
+    //moveShlopX = int(random(0, 2));
     if (shlopY < height/1.2) {
-      shlopY += 7;
+      if (moveShlopX <= 1) {
+        shlopX += 2;
+        shlopY += 6;
+      }
+      if (moveShlopX > 1 && moveShlopX <= 2) {
+        shlopX -= 2;
+        shlopY += 6;
+      }
+      if (moveShlopX > 2 && moveShlopX <= 3) {
+        shlopY += 6;
+      }
     }
   }
   if (moveShlopUp) {
     if (shlopY > 150) {
-      shlopY -= 7;
+      if (moveShlopX <= 1) {
+        shlopX -= 2;
+        shlopY -= 6;
+      }
+      if (moveShlopX > 1 && moveShlopX <= 2) {
+        shlopX += 2;
+        shlopY -= 6;
+      }
+      if (moveShlopX > 2 && moveShlopX <= 3) {
+        shlopY -= 6;
+      }
     }
   }
 }
