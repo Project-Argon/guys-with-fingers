@@ -73,6 +73,7 @@ function draw() {
   }
   if (shoot.isDone()) {
     if (isShooting) {
+      junBeoo.play();
       let pews = {
         x: x,
         y: y
