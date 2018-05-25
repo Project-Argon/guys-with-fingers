@@ -173,7 +173,7 @@ function shlopAi() {
 
   if (moveShlopDown) {
     //moveShlopX = int(random(0, 2));
-    if (shlopY < height/1.2) {
+    if (shlopY < height/1.1) {
       if (moveShlopX <= 1) {
         shlopX += 2;
         shlopY += 6;
@@ -263,7 +263,7 @@ function moveShip() {
   if (y >= height - 106) {
     isMovingDown = false;
   }
-  if (y <= 3*height/4) {
+  if (y <= height/1.9) {
     isMovingUp = false;
   }
   if (isMovingUp) {
