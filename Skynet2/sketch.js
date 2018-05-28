@@ -276,7 +276,7 @@ function moveShip() {
   if (y >= height - 106) {
     isMovingDown = false;
   }
-  if (y <= 3*height/4) {
+  if (y <= height/1.8) {
     isMovingUp = false;
   }
   if (isMovingUp) {
