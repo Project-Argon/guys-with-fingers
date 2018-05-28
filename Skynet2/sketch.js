@@ -8,12 +8,15 @@ let theStars = [];
 let shootTime, btShoot;
 let juns = [];
 
+let aliens = [];
+
 let shlopTimer, attackTimer, returnTimer, imgTimer, imgMillis;
 let moveShlopDown, moveShlopUp;
 let moveShlopX;
 
 let shoot;
 let flight;
+let appear;
 let hit;
 
 let state, imgState, screenState;
@@ -57,12 +60,16 @@ function setup() {
 
   shoot = new Timer(0);
   flight = new Timer(50);
+  appear = new Timer(0);
 
   state = 1;
   imgState = 1;
 }
 
 function draw() {
+  // if (screenState === 1) {
+  //
+  // }
   if (screenState === 2) {
     if (flight.isDone()) {
       let aStar = {
@@ -85,11 +92,21 @@ function draw() {
         shoot.reset(1000);
       }
     }
+    if (appear.isDone()) {
+      let aShlop = {
+        x: shlopX + random(-200, 200),
+        y: shlopY,
+        dx: 2,
+        dy: 6,
+        state: 1,
+      };
+      aliens.push(aShlop);
+      appear.reset(3000);
+    }
     background(0);
     moveStars();
     displayStars();
-    shlopAi();
-    collisionDetect();
+    // shlopAi();
 
     if (keyIsPressed) {
       moveShip();
@@ -98,6 +115,9 @@ function draw() {
 
     pewpew();
     displayPew();
+
+    moveShlop();
+    displayShlop();
 
     fill(255);
     rect(0, - 50, 300, height + 50);
@@ -132,90 +152,84 @@ class Timer {
   }
 }
 
-function collisionDetect() {
-  if (collideRectRect(x,y,132,132,shlopX,shlopY,74,48)) {
-    screenState = 3;
-  }
-}
-
-function shlopAi() {
-
-  if (imgState === 5) {
-    imgState = 1;
-  }
-
-  if (millis() > imgMillis + imgTimer) {
-    imgMillis = millis();
-    imgState += 1;
-  }
-
-  if (imgState === 1) {
-    image(shlop, shlopX, shlopY, 74, 48);
-  }
-
-  if (imgState === 2) {
-    image(shlop2, shlopX, shlopY, 74, 48);
-  }
-
-  if (imgState === 3) {
-    image(shlop3, shlopX, shlopY, 74, 48);
-  }
-
-  if (imgState === 4 || imgState === 5) {
-    image(shlop4, shlopX, shlopY, 74, 48);
-  }
-
-  if (state === 1) {
-    moveShlopDown = false;
-    if (millis() > attackTimer + returnTimer) {
-      moveShlopDown = true;
-      attackTimer = millis();
-      state = 2;
-      moveShlopX = random(0, 3);
-    }
-  }
-  else if (state === 2) {
-    moveShlopUp = false;
-    if (millis() > attackTimer + shlopTimer) {
-      moveShlopUp = true;
-      returnTimer = random(3000, 6000);
-      attackTimer = millis();
-      state = 1;
-    }
-  }
-
-  if (moveShlopDown) {
-    //moveShlopX = int(random(0, 2));
-    if (shlopY < height/1.2) {
-      if (moveShlopX <= 1) {
-        shlopX += 2;
-        shlopY += 6;
-      }
-      if (moveShlopX > 1 && moveShlopX <= 2) {
-        shlopX -= 2;
-        shlopY += 6;
-      }
-      if (moveShlopX > 2 && moveShlopX <= 3) {
-        shlopY += 6;
-      }
-    }
-  }
-  if (moveShlopUp) {
-    if (shlopY > 150) {
-      if (moveShlopX <= 1) {
-        shlopX -= 2;
-        shlopY -= 6;
-      }
-      if (moveShlopX > 1 && moveShlopX <= 2) {
-        shlopX += 2;
-        shlopY -= 6;
-      }
-      if (moveShlopX > 2 && moveShlopX <= 3) {
-        shlopY -= 6;
-      }
-    }
-  }
-}
+// function shlopAi() {
+//
+//   if (imgState === 5) {
+//     imgState = 1;
+//   }
+//
+//   if (millis() > imgMillis + imgTimer) {
+//     imgMillis = millis();
+//     imgState += 1;
+//   }
+//
+//   if (imgState === 1) {
+//     image(shlop, shlopX, shlopY, 74, 48);
+//   }
+//
+//   if (imgState === 2) {
+//     image(shlop2, shlopX, shlopY, 74, 48);
+//   }
+//
+//   if (imgState === 3) {
+//     image(shlop3, shlopX, shlopY, 74, 48);
+//   }
+//
+//   if (imgState === 4 || imgState === 5) {
+//     image(shlop4, shlopX, shlopY, 74, 48);
+//   }
+//
+//   if (state === 1) {
+//     moveShlopDown = false;
+//     if (millis() > attackTimer + returnTimer) {
+//       moveShlopDown = true;
+//       attackTimer = millis();
+//       state = 2;
+//       moveShlopX = random(0, 3);
+//     }
+//   }
+//   else if (state === 2) {
+//     moveShlopUp = false;
+//     if (millis() > attackTimer + shlopTimer) {
+//       moveShlopUp = true;
+//       returnTimer = random(3000, 6000);
+//       attackTimer = millis();
+//       state = 1;
+//     }
+//   }
+//
+//   if (moveShlopDown) {
+//     //moveShlopX = int(random(0, 2));
+//     if (shlopY < height/1.2) {
+//       if (moveShlopX <= 1) {
+//         shlopX += 2;
+//         shlopY += 6;
+//       }
+//       if (moveShlopX > 1 && moveShlopX <= 2) {
+//         shlopX -= 2;
+//         shlopY += 6;
+//       }
+//       if (moveShlopX > 2 && moveShlopX <= 3) {
+//         shlopY += 6;
+//       }
+//     }
+//   }
+//   if (moveShlopUp) {
+//     if (shlopY > 150) {
+//       if (moveShlopX <= 1) {
+//         shlopX -= 2;
+//         shlopY -= 6;
+//       }
+//       if (moveShlopX > 1 && moveShlopX <= 2) {
+//         shlopX += 2;
+//         shlopY -= 6;
+//       }
+//       if (moveShlopX > 2 && moveShlopX <= 3) {
+//         shlopY -= 6;
+//       }
+//     }
+//   }
+// }
 
 function pewpew() {
   for (let i=0; i<juns.length; i++) {
@@ -240,11 +254,109 @@ function moveStars() {
 }
 
 function displayStars() {
-
   for (let i=0; i<theStars.length; i++) {
     fill(255);
     noStroke();
     ellipse(theStars[i].x, theStars[i].y, theStars[i].c, theStars[i].c);
+  }
+}
+
+function moveShlop() {
+  for (let i=0; i<aliens.length; i++) {
+    if (aliens[i].state === 1) {
+      if (aliens[i].y < height/1.1) {
+        aliens[i].y += aliens[i].dy;
+      }
+      if (aliens[i].y >= height/1.1) {
+        aliens[i].state = 2;
+      }
+    }
+    if (aliens[i].state === 2) {
+      if (aliens[i].y >= 150) {
+        aliens[i].y -= aliens[i].dy;
+      }
+      if (aliens[i].y <= 150) {
+        aliens[i].state = 1;
+      }
+    }
+    if (collideRectRect(x,y,132,132,aliens[i].x,aliens[i].y,74,48)) {
+      screenState = 3;
+    }
+    // if (state === 1) {
+    //   moveShlopDown = false;
+    //   if (millis() > attackTimer + returnTimer) {
+    //     moveShlopDown = true;
+    //     attackTimer = millis();
+    //     state = 2;
+    //     moveShlopX = random(0, 3);
+    //   }
+    // }
+    // else if (state === 2) {
+    //   moveShlopUp = false;
+    //   if (millis() > attackTimer + shlopTimer) {
+    //     moveShlopUp = true;
+    //     returnTimer = random(3000, 6000);
+    //     attackTimer = millis();
+    //     state = 1;
+    //   }
+    // }
+    // if (moveShlopDown) {
+    //   if (shlopY < height/1.2) {
+    //     if (moveShlopX <= 1) {
+    //       shlopX += aliens[i].dx;
+    //       shlopY += aliens[i].dy;
+    //     }
+    //     if (moveShlopX > 1 && moveShlopX <= 2) {
+    //       shlopX -= aliens[i].dx;
+    //       shlopY += aliens[i].dy;
+    //     }
+    //     if (moveShlopX > 2 && moveShlopX <= 3) {
+    //       shlopY += aliens[i].dy;
+    //     }
+    //   }
+    // }
+    // if (moveShlopUp) {
+    //   if (shlopY > 150) {
+    //     if (moveShlopX <= 1) {
+    //       shlopX -= aliens[i].dx;
+    //       shlopY -= aliens[i].dy;
+    //     }
+    //     if (moveShlopX > 1 && moveShlopX <= 2) {
+    //       shlopX += aliens[i].dx;
+    //       shlopY -= aliens[i].dy;
+    //     }
+    //     if (moveShlopX > 2 && moveShlopX <= 3) {
+    //       shlopY -= aliens[i].dy;
+    //     }
+    //   }
+    // }
+  }
+}
+
+function displayShlop() {
+  for (let i=0; i<aliens.length; i++) {
+    if (imgState === 5) {
+      imgState = 1;
+    }
+    if (millis() > imgMillis + imgTimer) {
+      imgMillis = millis();
+      imgState += 1;
+    }
+    if (imgState === 1) {
+      image(shlop, aliens[i].x, aliens[i].y, 74, 48);
+    }
+    if (imgState === 2) {
+      image(shlop2, aliens[i].x, aliens[i].y, 74, 48);
+    }
+    if (imgState === 3) {
+      image(shlop3, aliens[i].x, aliens[i].y, 74, 48);
+    }
+    if (imgState === 4 || imgState === 5) {
+      image(shlop4, aliens[i].x, aliens[i].y, 74, 48);
+    }
+    if (aliens.length >= 7) {
+      aliens.pop();
+    }
   }
 }
 
