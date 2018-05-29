@@ -14,9 +14,7 @@ let attackTimer, shlopTimer, imgTimer, imgMillis;
 let moveShlopDown, moveShlopUp;
 let moveShlopX;
 
-let shoot;
-let flight;
-let appear;
+let shoot, flight, appear;
 let hit;
 
 let state, imgState, screenState;
@@ -47,7 +45,7 @@ function setup() {
   moveShlopUp = false;
   shlopX = width/2-48;
   shlopY = 150;
-  // shlopTimer = 2000;
+  shlopTimer = 5000;
   // returnTimer = random(4000, 7000);
   attackTimer = millis();
   imgTimer = 175;
@@ -223,10 +221,10 @@ function moveShlop() {
         }
       }
       if (aliens[i].y <= 150) {
-        shlopTimer = random(5000, 7000);
         if (millis() > aliens[i].timing + shlopTimer) {
           aliens[i].state = 1;
           aliens[i].timing = millis();
+          shlopTimer = random(5000, 7000);
         }
         aliens[i].choice = random(0, 3);
       }
