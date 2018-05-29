@@ -10,7 +10,7 @@ let juns = [];
 
 let aliens = [];
 
-let shlopTimer, attackTimer, returnTimer, imgTimer, imgMillis;
+let attackTimer, shlopTimer, imgTimer, imgMillis;
 let moveShlopDown, moveShlopUp;
 let moveShlopX;
 
@@ -20,6 +20,8 @@ let appear;
 let hit;
 
 let state, imgState, screenState;
+
+// let returnTimer;
 
 function preload() {
   shlep = loadImage("assets/Shlep.png");
@@ -45,8 +47,8 @@ function setup() {
   moveShlopUp = false;
   shlopX = width/2-48;
   shlopY = 150;
-  shlopTimer = 2000;
-  returnTimer = random(4000, 7000);
+  // shlopTimer = 2000;
+  // returnTimer = random(4000, 7000);
   attackTimer = millis();
   imgTimer = 175;
   imgMillis = millis();
@@ -94,11 +96,13 @@ function draw() {
     }
     if (appear.isDone()) {
       let aShlop = {
-        x: shlopX + random(-200, 200),
+        x: shlopX + random(-300, 300),
         y: shlopY,
         dx: 2,
         dy: 6,
         state: 1,
+        timing: attackTimer,
+        choice: random(0,3),
       };
       aliens.push(aShlop);
       appear.reset(3000);
@@ -106,7 +110,6 @@ function draw() {
     background(0);
     moveStars();
     displayStars();
-    // shlopAi();
 
     if (keyIsPressed) {
       moveShip();
@@ -152,85 +155,6 @@ class Timer {
   }
 }
 
-// function shlopAi() {
-//
-//   if (imgState === 5) {
-//     imgState = 1;
-//   }
-//
-//   if (millis() > imgMillis + imgTimer) {
-//     imgMillis = millis();
-//     imgState += 1;
-//   }
-//
-//   if (imgState === 1) {
-//     image(shlop, shlopX, shlopY, 74, 48);
-//   }
-//
-//   if (imgState === 2) {
-//     image(shlop2, shlopX, shlopY, 74, 48);
-//   }
-//
-//   if (imgState === 3) {
-//     image(shlop3, shlopX, shlopY, 74, 48);
-//   }
-//
-//   if (imgState === 4 || imgState === 5) {
-//     image(shlop4, shlopX, shlopY, 74, 48);
-//   }
-//
-//   if (state === 1) {
-//     moveShlopDown = false;
-//     if (millis() > attackTimer + returnTimer) {
-//       moveShlopDown = true;
-//       attackTimer = millis();
-//       state = 2;
-//       moveShlopX = random(0, 3);
-//     }
-//   }
-//   else if (state === 2) {
-//     moveShlopUp = false;
-//     if (millis() > attackTimer + shlopTimer) {
-//       moveShlopUp = true;
-//       returnTimer = random(3000, 6000);
-//       attackTimer = millis();
-//       state = 1;
-//     }
-//   }
-//
-//   if (moveShlopDown) {
-//     //moveShlopX = int(random(0, 2));
-//     if (shlopY < height/1.2) {
-//       if (moveShlopX <= 1) {
-//         shlopX += 2;
-//         shlopY += 6;
-//       }
-//       if (moveShlopX > 1 && moveShlopX <= 2) {
-//         shlopX -= 2;
-//         shlopY += 6;
-//       }
-//       if (moveShlopX > 2 && moveShlopX <= 3) {
-//         shlopY += 6;
-//       }
-//     }
-//   }
-//   if (moveShlopUp) {
-//     if (shlopY > 150) {
-//       if (moveShlopX <= 1) {
-//         shlopX -= 2;
-//         shlopY -= 6;
-//       }
-//       if (moveShlopX > 1 && moveShlopX <= 2) {
-//         shlopX += 2;
-//         shlopY -= 6;
-//       }
-//       if (moveShlopX > 2 && moveShlopX <= 3) {
-//         shlopY -= 6;
-//       }
-//     }
-//   }
-// }
-
 function pewpew() {
   for (let i=0; i<juns.length; i++) {
     juns[i].y -= 8;
@@ -265,71 +189,51 @@ function moveShlop() {
   for (let i=0; i<aliens.length; i++) {
     if (aliens[i].state === 1) {
       if (aliens[i].y < height/1.1) {
-        aliens[i].y += aliens[i].dy;
+        if (aliens[i].choice <= 1) {
+          aliens[i].x += aliens[i].dx;
+          aliens[i].y += aliens[i].dy;
+        }
+        if (aliens[i].choice > 1 && aliens[i].choice <= 2) {
+          aliens[i].x -= aliens[i].dx;
+          aliens[i].y += aliens[i].dy;
+        }
+        if (aliens[i].choice > 2 && aliens[i].choice <= 3) {
+          aliens[i].y += aliens[i].dy;
+        }
       }
       if (aliens[i].y >= height/1.1) {
-        aliens[i].state = 2;
+        if (millis() > aliens[i].timing + 1000) {
+          aliens[i].state = 2;
+          aliens[i].timing = millis();
+        }
       }
     }
     if (aliens[i].state === 2) {
       if (aliens[i].y >= 150) {
-        aliens[i].y -= aliens[i].dy;
+        if (aliens[i].choice <= 1) {
+          aliens[i].x -= aliens[i].dx;
+          aliens[i].y -= aliens[i].dy;
+        }
+        if (aliens[i].choice > 1 && aliens[i].choice <= 2) {
+          aliens[i].x += aliens[i].dx;
+          aliens[i].y -= aliens[i].dy;
+        }
+        if (aliens[i].choice > 2 && aliens[i].choice <= 3) {
+          aliens[i].y -= aliens[i].dy;
+        }
       }
       if (aliens[i].y <= 150) {
-        aliens[i].state = 1;
+        shlopTimer = random(5000, 7000);
+        if (millis() > aliens[i].timing + shlopTimer) {
+          aliens[i].state = 1;
+          aliens[i].timing = millis();
+        }
+        aliens[i].choice = random(0, 3);
       }
     }
     if (collideRectRect(x,y,132,132,aliens[i].x,aliens[i].y,74,48)) {
       screenState = 3;
     }
-    // if (state === 1) {
-    //   moveShlopDown = false;
-    //   if (millis() > attackTimer + returnTimer) {
-    //     moveShlopDown = true;
-    //     attackTimer = millis();
-    //     state = 2;
-    //     moveShlopX = random(0, 3);
-    //   }
-    // }
-    // else if (state === 2) {
-    //   moveShlopUp = false;
-    //   if (millis() > attackTimer + shlopTimer) {
-    //     moveShlopUp = true;
-    //     returnTimer = random(3000, 6000);
-    //     attackTimer = millis();
-    //     state = 1;
-    //   }
-    // }
-    // if (moveShlopDown) {
-    //   if (shlopY < height/1.2) {
-    //     if (moveShlopX <= 1) {
-    //       shlopX += aliens[i].dx;
-    //       shlopY += aliens[i].dy;
-    //     }
-    //     if (moveShlopX > 1 && moveShlopX <= 2) {
-    //       shlopX -= aliens[i].dx;
-    //       shlopY += aliens[i].dy;
-    //     }
-    //     if (moveShlopX > 2 && moveShlopX <= 3) {
-    //       shlopY += aliens[i].dy;
-    //     }
-    //   }
-    // }
-    // if (moveShlopUp) {
-    //   if (shlopY > 150) {
-    //     if (moveShlopX <= 1) {
-    //       shlopX -= aliens[i].dx;
-    //       shlopY -= aliens[i].dy;
-    //     }
-    //     if (moveShlopX > 1 && moveShlopX <= 2) {
-    //       shlopX += aliens[i].dx;
-    //       shlopY -= aliens[i].dy;
-    //     }
-    //     if (moveShlopX > 2 && moveShlopX <= 3) {
-    //       shlopY -= aliens[i].dy;
-    //     }
-    //   }
-    // }
   }
 }
 
@@ -354,7 +258,7 @@ function displayShlop() {
     if (imgState === 4 || imgState === 5) {
       image(shlop4, aliens[i].x, aliens[i].y, 74, 48);
     }
-    if (aliens.length >= 7) {
+    if (aliens.length === 10) {
       aliens.pop();
     }
   }
