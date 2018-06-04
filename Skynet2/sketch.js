@@ -60,7 +60,7 @@ function setup() {
 
   shoot = new Timer(0);
   flight = new Timer(50);
-  appear = new Timer(0);
+  appear = new Timer(3000);
 
   state = 1;
   imgState = 1;
@@ -94,7 +94,7 @@ function draw() {
     }
     if (appear.isDone()) {
       let aShlop = {
-        x: shlopX + random(-300, 300),
+        x: shlopX + random(-100, 100),
         y: shlopY,
         dx: 2,
         dy: 6,
@@ -156,6 +156,10 @@ class Timer {
 function pewpew() {
   for (let i=0; i<juns.length; i++) {
     juns[i].y -= 8;
+
+    if (juns[i].y >= height + 50) {
+      juns.splice(i, 1);
+    }
   }
 }
 
@@ -229,8 +233,14 @@ function moveShlop() {
         aliens[i].choice = random(0, 3);
       }
     }
-    if (collideRectRect(x,y,132,132,aliens[i].x,aliens[i].y,74,48)) {
+    if (collideRectRect(x, y, 132, 132, aliens[i].x, aliens[i].y, 74, 48)) {
       screenState = 3;
+    }
+    for (let j=0; j<juns.length; j++) {
+      if (collideRectRect(aliens[i].x, aliens[i].y, 74, 48, juns[j].x + 48, juns[j].y, 32, 32)) {
+        juns.splice(j, 1);
+        aliens.splice(i, 1);
+      }
     }
   }
 }
