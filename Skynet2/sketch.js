@@ -4,7 +4,6 @@ let isMovingUp, isMovingDown, isMovingRight, isMovingLeft;
 let junBeoo;
 let isShooting;
 let theStars = [];
-// let flightTime, btTime;
 let shootTime, btShoot;
 let juns = [];
 
@@ -18,8 +17,6 @@ let shoot, flight, appear;
 let hit;
 
 let state, imgState, screenState;
-
-// let returnTimer;
 
 function preload() {
   shlep = loadImage("assets/Shlep.png");
@@ -46,17 +43,11 @@ function setup() {
   shlopX = width/2-48;
   shlopY = 150;
   shlopTimer = 5000;
-  // returnTimer = random(4000, 7000);
   attackTimer = millis();
   imgTimer = 175;
   imgMillis = millis();
   hit = false;
   screenState = 2;
-
-  // btTime = 50;
-  // flightTime = millis();
-  // shootTime = millis();
-  // btShoot = 1000;
 
   shoot = new Timer(0);
   flight = new Timer(50);
@@ -67,9 +58,6 @@ function setup() {
 }
 
 function draw() {
-  // if (screenState === 1) {
-  //
-  // }
   if (screenState === 2) {
     if (flight.isDone()) {
       let aStar = {
@@ -94,13 +82,14 @@ function draw() {
     }
     if (appear.isDone()) {
       let aShlop = {
-        x: shlopX + random(-100, 100),
+        x: shlopX,
         y: shlopY,
         dx: 2,
         dy: 6,
         state: 1,
         timing: attackTimer,
         choice: random(0,3),
+        life: 3,
       };
       aliens.push(aShlop);
       appear.reset(3000);
@@ -233,13 +222,19 @@ function moveShlop() {
         aliens[i].choice = random(0, 3);
       }
     }
-    if (collideRectRect(x, y, 132, 132, aliens[i].x, aliens[i].y, 74, 48)) {
+    if (collideRectRect(x, y, 132, 132, aliens[i].x, aliens[i].y + 35, 74, -20)) {
       screenState = 3;
     }
-    for (let j=0; j<juns.length; j++) {
-      if (collideRectRect(aliens[i].x, aliens[i].y, 74, 48, juns[j].x + 48, juns[j].y, 32, 32)) {
+  }
+  for (let j=0; j<juns.length; j++) {
+    for (let i=0; i<aliens.length; i++) {
+      if (collideRectRect(aliens[i].x, aliens[i].y + 35, 74, -20, juns[j].x + 48, juns[j].y, 32, 32)) {
         juns.splice(j, 1);
-        aliens.splice(i, 1);
+        // aliens.splice(i, 1);
+        aliens[i].life -= 1;
+        if (aliens[i].life <= 0) {
+          aliens.splice(i, 1);
+        }
       }
     }
   }
@@ -266,7 +261,7 @@ function displayShlop() {
     if (imgState === 4 || imgState === 5) {
       image(shlop4, aliens[i].x, aliens[i].y, 74, 48);
     }
-    if (aliens.length === 10) {
+    if (aliens.length === 11) {
       aliens.pop();
     }
   }
