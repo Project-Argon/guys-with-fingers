@@ -230,11 +230,11 @@ function moveShlop() {
     for (let i=0; i<aliens.length; i++) {
       if (collideRectRect(aliens[i].x, aliens[i].y + 35, 74, -20, juns[j].x + 48, juns[j].y, 32, 32)) {
         juns.splice(j, 1);
-        // aliens.splice(i, 1);
-        aliens[i].life -= 1;
-        if (aliens[i].life <= 0) {
-          aliens.splice(i, 1);
-        }
+        aliens.splice(i, 1);
+        // aliens[i].life -= 1;
+        // if (aliens[i].life <= 0) {
+        //   aliens.splice(i, 1);
+        // }
       }
     }
   }
