@@ -3,28 +3,18 @@ let x, y, shlopX, shlopY;
 let isMovingUp, isMovingDown, isMovingRight, isMovingLeft;
 let junBeoo;
 let isShooting;
-let theStars = [];
-let shootTime, btShoot;
-let juns = [];
-
-let aliens = [];
-
-let attackTimer, shlopTimer, imgTimer, imgMillis, waitTimer;
-let moveShlopDown, moveShlopUp;
-let moveShlopX;
-let startButtonFill;
-
-let shoot, flight, appear;
 let hit;
 let show;
-
+let theStars = [];
+let juns = [];
+let aliens = [];
+let attackTimer, shlopTimer, imgTimer, imgMillis, waitTimer;
+let moveShlopDown, moveShlopUp, moveShlopX;
+let startButtonFill;
+let shoot, flight, appear;
 let state, imgState, screenState;
-
-let hp;
-
 let t, d, v;
-
-let score, kills;
+let score, kills, hp;
 
 function preload() {
   titleScreen = loadImage("assets/OpenScreen.png");
@@ -43,14 +33,12 @@ function setup() {
   t = 5000;
   d = random(5000, 10000);
   v = random(25000, 30000);
-
   x = width/2 - 66;
   y = 600;
   isMovingUp = false;
   isMovingDown = false;
   isMovingLeft = false;
   isMovingRight = false;
-
   moveShlopDown = false;
   moveShlopUp = false;
   shlopX = 2*width/8-48;
@@ -62,20 +50,14 @@ function setup() {
   hit = false;
   screenState = 1;
   startButtonFill = 255;
-
   shoot = new Timer(0);
   flight = new Timer(50);
   appear = new Timer(t);
-
   state = 1;
   imgState = 1;
-
   hp = 1;
-
   show = false;
-
   waitTimer = 30000;
-
   score = 0;
   kills = 0;
 }
@@ -107,6 +89,7 @@ function draw() {
       cursor(ARROW);
     }
   }
+
   if (screenState === 2) {
     if (flight.isDone()) {
       let aStar = {
@@ -118,6 +101,7 @@ function draw() {
       theStars.push(aStar);
       flight.reset(50);
     }
+
     if (shoot.isDone()) {
       if (isShooting) {
         junBeoo.play();
@@ -129,6 +113,7 @@ function draw() {
         shoot.reset(1000);
       }
     }
+
     if (appear.isDone()) {
       if (show) {
         attackTimer = millis();
@@ -160,7 +145,9 @@ function draw() {
         }
       }
     }
+
     background(0);
+
     moveStars();
     displayStars();
 
