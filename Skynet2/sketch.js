@@ -13,7 +13,7 @@ let moveShlopDown, moveShlopUp, moveShlopX;
 let startButtonFill;
 let shoot, flight, appear;
 let state, imgState, screenState;
-let t, d, v;
+let t, d, v, w;
 let score, kills, hp;
 
 function preload() {
@@ -35,6 +35,7 @@ function setup() {
   v = random(25000, 30000);
   x = width/2 - 66;
   y = 600;
+  w = 4;
   isMovingUp = false;
   isMovingDown = false;
   isMovingLeft = false;
@@ -122,7 +123,7 @@ function draw() {
           y: shlopY,
           iy: shlopY,
           dx: 2,
-          dy: 6,
+          dy: w,
           state: 0,
           timing: attackTimer,
           choice: random(0,3),
@@ -137,7 +138,7 @@ function draw() {
           shlopY += height/12;
         }
         appear.reset(0);
-        if (aliens.length >= 21) {
+        if (aliens.length >= 16) {
           show = false;
           aliens.pop();
           shlopX = 2*width/8-48;
@@ -306,6 +307,9 @@ function moveShlop() {
       hp += 1;
       show = true;
       appear.reset(t);
+      if (w < 10) {
+        w += 1;
+      }
     }
   }
 }
