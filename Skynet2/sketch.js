@@ -13,8 +13,8 @@ let moveShlopDown, moveShlopUp, moveShlopX;
 let startButtonFill;
 let shoot, flight, appear;
 let state, imgState, screenState;
-let t, d, v, w;
-let score, kills, hp;
+let t, d, v, w, s;
+let score, kills, hp, hps;
 
 function preload() {
   titleScreen = loadImage("assets/OpenScreen.png");
@@ -36,6 +36,7 @@ function setup() {
   x = width/2 - 66;
   y = 600;
   w = 4;
+  s = 1000;
   isMovingUp = false;
   isMovingDown = false;
   isMovingLeft = false;
@@ -57,6 +58,7 @@ function setup() {
   state = 1;
   imgState = 1;
   hp = 1;
+  hps = 3;
   show = false;
   waitTimer = 30000;
   score = 0;
@@ -75,6 +77,9 @@ function draw() {
     textSize(windowWidth / 20);
     textAlign(CENTER, CENTER);
     text("start", width / 2, height / 2 + 25);
+    fill(255);
+    textSize(windowHeight / 20);
+    text("A - move left, D - move right, S - move down, W - move up, Space bar - shoot", width / 2, 3*height / 4);
     if (collidePointRect(mouseX, mouseY, width/2 - 225, height/2 - 100, 450, 250)) {
       startButtonFill = [115, 60, 115];
       cursor(HAND);
@@ -111,7 +116,7 @@ function draw() {
           y: y
         };
         juns.push(pews);
-        shoot.reset(1000);
+        shoot.reset(s);
       }
     }
 
@@ -138,7 +143,7 @@ function draw() {
           shlopY += height/12;
         }
         appear.reset(0);
-        if (aliens.length >= 16) {
+        if (aliens.length >= 21) {
           show = false;
           aliens.pop();
           shlopX = 2*width/8-48;
@@ -285,7 +290,11 @@ function moveShlop() {
         }
       }
       if (collideRectRect(x, y, 132, 132, aliens[i].x, aliens[i].y, 96, 62)) {
-        screenState = 3;
+        aliens.splice(i, 1);
+        hps -= 1;
+        if (hps <= 0) {
+          screenState = 3;
+        }
       }
       if (aliens[i].life <= 0) {
         aliens.splice(i, 1);
