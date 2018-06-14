@@ -12,13 +12,17 @@ let attackTimer, shlopTimer, imgTimer, imgMillis, waitTimer;
 let moveShlopDown, moveShlopUp, moveShlopX;
 let startButtonFill;
 let shoot, flight, appear;
-let state, imgState, screenState;
+let state, imgState, screenState, aiPicker;
 let t, d, v, w, s;
 let score, kills, hp, hps;
 
 function preload() {
   titleScreen = loadImage("assets/OpenScreen.png");
-  shlep = loadImage("assets/Shlep.png");
+  deathScreen = loadImage("assets/GameOverScreen.png");
+  shlep = loadImage("assets/shlep1.png");
+  shlep2 = loadImage("assets/shlep2.png");
+  shlep3 = loadImage("assets/shlep3.png");
+  shlep4 = loadImage("assets/shlep4.png");
   shlop = loadImage("assets/Shlop.png");
   shlop2 = loadImage("assets/Shlop2.png");
   shlop3 = loadImage("assets/Shlop3.png");
@@ -97,6 +101,7 @@ function draw() {
   }
 
   if (screenState === 2) {
+
     if (flight.isDone()) {
       let aStar = {
         x: random(300, width - 300),
@@ -171,9 +176,13 @@ function draw() {
     fill(255);
     rect(0, - 50, 300, height + 50);
     rect(width-300, - 50, 300, height + 50);
+
+    textAlign(CENTER, CENTER);
+    text(kills, width / 4, height / 2);
+    fill(255);
   }
   if (screenState === 3) {
-    background(255);
+    image(deathScreen ,0,0,width,height);
   }
 }
 class Timer {
@@ -289,7 +298,7 @@ function moveShlop() {
           aliens[i].choice = random(0, 3);
         }
       }
-      if (collideRectRect(x, y, 132, 132, aliens[i].x, aliens[i].y, 96, 62)) {
+      if (collideRectRect(x, y + 54, 132, 12, aliens[i].x + 5, aliens[i].y, 64, 38)) {
         aliens.splice(i, 1);
         hps -= 1;
         if (hps <= 0) {
@@ -324,27 +333,27 @@ function moveShlop() {
 }
 
 function displayShlop() {
-  for (let i=0; i<aliens.length; i++) {
-    if (imgState === 5) {
-      imgState = 1;
+    for (let i=0; i<aliens.length; i++) {
+      if (imgState === 5) {
+        imgState = 1;
+      }
+      if (millis() > imgMillis + imgTimer) {
+        imgMillis = millis();
+        imgState += 1;
+      }
+      if (imgState === 1) {
+        image(shlop, aliens[i].x, aliens[i].y, 74, 48);
+      }
+      if (imgState === 2) {
+        image(shlop2, aliens[i].x, aliens[i].y, 74, 48);
+      }
+      if (imgState === 3) {
+        image(shlop3, aliens[i].x, aliens[i].y, 74, 48);
+      }
+      if (imgState === 4 || imgState === 5) {
+        image(shlop4, aliens[i].x, aliens[i].y, 74, 48);
+      }
     }
-    if (millis() > imgMillis + imgTimer) {
-      imgMillis = millis();
-      imgState += 1;
-    }
-    if (imgState === 1) {
-      image(shlop, aliens[i].x, aliens[i].y, 74, 48);
-    }
-    if (imgState === 2) {
-      image(shlop2, aliens[i].x, aliens[i].y, 74, 48);
-    }
-    if (imgState === 3) {
-      image(shlop3, aliens[i].x, aliens[i].y, 74, 48);
-    }
-    if (imgState === 4 || imgState === 5) {
-      image(shlop4, aliens[i].x, aliens[i].y, 74, 48);
-    }
-  }
 }
 
 function keyPressed() {
