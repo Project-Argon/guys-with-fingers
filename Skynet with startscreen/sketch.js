@@ -126,6 +126,7 @@ function draw() {
     background(0);
     moveStars();
     displayStars();
+    collisionDetect();
 
     if (keyIsPressed) {
       moveShip();
@@ -168,6 +169,15 @@ class Timer {
     else {
       return false;
     }
+  }
+}
+
+function collisionDetect() {
+  if (collideRectRect(x,y+54,132,12,shlopX+5,shlopY,64,38)) {
+    screenState = 3;
+  }
+  if (collideRectRect(x+48,y+6,36,62,shlopX+5,shlopY,64,38)) {
+    screenState = 3;
   }
 }
 

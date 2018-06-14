@@ -101,7 +101,7 @@ function draw() {
   }
 
   if (screenState === 2) {
-
+    textSize(32);
     if (flight.isDone()) {
       let aStar = {
         x: random(300, width - 300),
@@ -173,16 +173,22 @@ function draw() {
     moveShlop();
     displayShlop();
 
-    fill(255);
-    rect(0, - 50, 300, height + 50);
-    rect(width-300, - 50, 300, height + 50);
+    fill(120, 60, 120);
+    rect(0, - 50, width/5.5 , height + 50);
+    rect(width-width/5.5, - 50, width/5.5, height + 50);
 
     textAlign(CENTER, CENTER);
-    text(kills, width / 4, height / 2);
-    fill(255);
+    fill(0);
+    text("Kills: " + kills, width / 10, height / 2 + 50);
+    textAlign(CENTER, CENTER);
+    fill(0);
+    text("Score: " + score, width / 10, height / 2 - 50);
   }
   if (screenState === 3) {
     image(deathScreen ,0,0,width,height);
+    fill(255);
+    text("Refesh page to play again", width / 2, height / 2);
+    textAlign(CENTER, CENTER);
   }
 }
 class Timer {
@@ -333,27 +339,27 @@ function moveShlop() {
 }
 
 function displayShlop() {
-    for (let i=0; i<aliens.length; i++) {
-      if (imgState === 5) {
-        imgState = 1;
-      }
-      if (millis() > imgMillis + imgTimer) {
-        imgMillis = millis();
-        imgState += 1;
-      }
-      if (imgState === 1) {
-        image(shlop, aliens[i].x, aliens[i].y, 74, 48);
-      }
-      if (imgState === 2) {
-        image(shlop2, aliens[i].x, aliens[i].y, 74, 48);
-      }
-      if (imgState === 3) {
-        image(shlop3, aliens[i].x, aliens[i].y, 74, 48);
-      }
-      if (imgState === 4 || imgState === 5) {
-        image(shlop4, aliens[i].x, aliens[i].y, 74, 48);
-      }
+  for (let i=0; i<aliens.length; i++) {
+    if (imgState === 5) {
+      imgState = 1;
     }
+    if (millis() > imgMillis + imgTimer) {
+      imgMillis = millis();
+      imgState += 1;
+    }
+    if (imgState === 1) {
+      image(shlop, aliens[i].x, aliens[i].y, 74, 48);
+    }
+    if (imgState === 2) {
+      image(shlop2, aliens[i].x, aliens[i].y, 74, 48);
+    }
+    if (imgState === 3) {
+      image(shlop3, aliens[i].x, aliens[i].y, 74, 48);
+    }
+    if (imgState === 4 || imgState === 5) {
+      image(shlop4, aliens[i].x, aliens[i].y, 74, 48);
+    }
+  }
 }
 
 function keyPressed() {
@@ -375,10 +381,10 @@ function keyPressed() {
 }
 
 function moveShip() {
-  if (x <= 310) {
+  if (x <= width/5.5) {
     isMovingLeft = false;
   }
-  if (x >= width - 442) {
+  if (x >= width/1.36) {
     isMovingRight = false;
   }
   if (y >= height - 106) {
