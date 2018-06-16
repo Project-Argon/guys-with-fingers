@@ -3,7 +3,7 @@
 //2018
 //Galaga
 //We both worked on the majority of the program together. Caleb took care of assets and sound and Chris did more of the trouble shooting and making sure the basic function were working properly
-//We got our "must haves" into this version of the program, but there are a few "nice to haves" that we didn't have the time to get arouns to
+//We got our "must haves" into this version of the program, but there are a few "nice to haves" that we didn't have the time to get around to
 //This has been a great class this semester and we thank you for putting up with us and teaching us
 
 //Variables that control stuff like arrays, images, movement, rate of fire, timers, states and ai
@@ -118,6 +118,7 @@ function draw() {
 
   //Game play screen. We push objects such as stars, pews and aliens into their arrays and call the functions that display assets and allow for control of movements
   if (screenState === 2) {
+    textSize(32);
     if (flight.isDone()) {
       //star object
       let aStar = {
@@ -192,13 +193,16 @@ function draw() {
     moveShlop();
     displayShlop();
 
-    fill(255);
-    rect(0, - 50, 300, height + 50);
-    rect(width-300, - 50, 300, height + 50);
+    fill(120, 60, 120);
+    rect(0, - 50, width/5.5 , height + 50);
+    rect(width-width/5.5, - 50, width/5.5, height + 50);
 
     textAlign(CENTER, CENTER);
-    text(kills, width / 4, height / 2);
-    fill(255);
+    fill(0);
+    text("Kills: " + kills, width / 10.5, height / 2 + 50);
+    textAlign(CENTER, CENTER);
+    fill(0);
+    text("Score: " + score, width / 10.5, height / 2 - 50);
   }
   //Game over screen with restart button
   if (screenState === 3) {
@@ -418,10 +422,10 @@ function keyPressed() {
 
 //Sets how the ship moves and the boarders that it isn't allowed to cross
 function moveShip() {
-  if (x <= 310) {
+  if (x <= width/5.5) {
     isMovingLeft = false;
   }
-  if (x >= width - 442) {
+  if (x >= width/1.36) {
     isMovingRight = false;
   }
   if (y >= height - 106) {
